@@ -1,6 +1,7 @@
 package org.home.knightingal.controller;
 
 import org.home.knightingal.bean.City;
+import org.home.knightingal.dao.CityDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
@@ -19,6 +20,9 @@ public class CityController {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    CityDao cityDao;
 
     @RequestMapping(value="/simpleQueryCities")
     @ResponseBody
@@ -39,5 +43,11 @@ public class CityController {
             }
         });
         return cities;
+    }
+
+    @RequestMapping(value="/queryCities")
+    @ResponseBody
+    public List<City> queryCities() {
+        return cityDao.queryCities();
     }
 }
