@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.ResultSet;
@@ -46,8 +48,15 @@ public class CityController {
     }
 
     @RequestMapping(value="/queryCities")
-    @ResponseBody
-    public List<City> queryCities() {
-        return cityDao.queryCities();
+    public String queryCities(
+    		@RequestParam(value="countryCode", required=false) String countryCode,
+    		Model model
+	) {
+        City param = new City();
+        param.setCountryCode(countryCode);
+
+        List<City> cities = cityDao.queryCities(param);
+        model.addAttribute("cities", cities);
+        return "queryCities";  
     }
 }

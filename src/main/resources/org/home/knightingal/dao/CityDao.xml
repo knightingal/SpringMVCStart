@@ -22,6 +22,11 @@
 <mapper namespace="org.home.knightingal.dao.CityDao">
     <select id="queryCities" resultType="org.home.knightingal.bean.City">
         select id, name, countryCode, district, population from city
+        where
+        	1 = 1
+        	<if test="countryCode != null">
+        		and countryCode = #{countryCode}
+        	</if> 
         limit 0, 10
     </select>
 </mapper>
